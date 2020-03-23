@@ -6,19 +6,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 PRACTICUM_TOKEN = os.getenv("PRACTICUM_TOKEN")
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-proxy = telegram.utils.request.Request(proxy_url='https://81.174.11.227:34167') 
+proxy = telegram.utils.request.Request(proxy_url='https://115.84.99.82:8080') 
 url = 'https://praktikum.yandex.ru/api/user_api/homework_statuses/'
 headers = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
-params = {'from_date':current_timestamp}
+params = {'from_date':0}
 
 
 def parse_homework_status(homework):
-    response = requests.get(url=url, headers=headers, params=params).json().response.get('homeworks')[0]
+    response = requests.get(url=url, headers=headers, params=params).json().get('homeworks')[0]
     homework_name = response['homework_name']
 
     if response['status'] == 'approved':
@@ -29,9 +28,8 @@ def parse_homework_status(homework):
 
 
 def get_homework_statuses(current_timestamp):
-    response = requests.get(url=url, headers=headers, params=params).json()
-    homework_statuses = response.get('homeworks')[0]['status']
-    return homework_statuses
+    homework_statuses = requests.get(url=url, headers=headers, params=params)
+    return homework_statuses.json()
 
 
 def send_message(message):

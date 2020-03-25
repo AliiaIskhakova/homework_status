@@ -1,9 +1,10 @@
+# импорты стандартных библиотек
 import os
-import requests
 import time
 
+# импорты сторонних библиотек
+import requests
 import telegram
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,13 +16,10 @@ CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 headers = {'Authorization': f'OAuth {PRAKTIKUM_TOKEN}'}
 params = {'from_date': 0}
 
-proxy = telegram.utils.request.Request(proxy_url='https://62.201.238.250:8080') 
-bot = telegram.Bot(token=TELEGRAM_TOKEN, request=proxy)
-
 
 def parse_homework_status(homework):
     url = 'https://praktikum.yandex.ru/api/user_api/homework_statuses/'
-    response = requests.get(url=url, headers=headers, params=params).json().get('homeworks')
+    response = requests.get(url=url, headers=headers, params=params).json().get('homeworks', 'Нет заданий на проверке.')
     homework_name = response[0]['homework_name']
 
     if response[0]['status'] == 'rejected':
@@ -44,21 +42,24 @@ def send_message(message, bot):
 def main():
     current_timestamp = int(time.time())  # начальное значение timestamp
 
+    proxy = telegram.utils.request.Request(proxy_url='https://62.201.238.250:8080') 
+    bot = telegram.Bot(token=TELEGRAM_TOKEN, request=proxy)
+
     while True:
         try:
             new_homework = get_homework_statuses(current_timestamp)
             if new_homework:
-                send_message(parse_homework_status(new_homework.get('homeworks')), bot)
-            current_timestamp = new_homework.get('current_date')  # обновить timestamp
+                send_message(parse_homework_status(new_homework.get('homeworks', 'Нет заданий на проверке.')), bot)
+            current_timestamp = new_homework.get('current_date', 'Не могу обновить интервал времени')  # обновить timestamp
             time.sleep(300)  # опрашивать раз в пять минут
-
-        except Exception as e:
-            print(f'Бот упал с ошибкой: {e}')
-            time.sleep(10)
 
         except KeyboardInterrupt:
             print('Бот остановлен.')
             break
+
+        except Exception as e:
+            print(f'Бот упал с ошибкой: {e}')
+            time.sleep(10)
 
 if __name__ == '__main__':
     main()

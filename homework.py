@@ -19,8 +19,16 @@ params = {'from_date': 0}
 
 def parse_homework_status(homework):
     url = 'https://praktikum.yandex.ru/api/user_api/homework_statuses/'
-    response = requests.get(url=url, headers=headers, params=params).json().get('homeworks', 'Нет заданий на проверке.')
-    homework_name = response[0]['homework_name']
+
+    try:
+        response = requests.get(url=url, headers=headers, params=params).json().get('homeworks', [])
+        homework_name = response[0]['homework_name']
+
+    except KeyError:
+        print('Список домашек пуст')
+
+    except Exception as e:
+        print(f'Ошибка: {e}')
 
     if response[0]['status'] == 'rejected':
         verdict = 'К сожалению в работе нашлись ошибки.'
@@ -49,8 +57,17 @@ def main():
         try:
             new_homework = get_homework_statuses(current_timestamp)
             if new_homework:
-                send_message(parse_homework_status(new_homework.get('homeworks', 'Нет заданий на проверке.')), bot)
-            current_timestamp = new_homework.get('current_date', 'Не могу обновить интервал времени')  # обновить timestamp
+                send_message(parse_homework_status(new_homework.get('homeworks', [])), bot)
+
+            try:
+                current_timestamp = new_homework.get('current_date', 0)  # обновить timestamp
+
+            except KeyError:
+                print('Нет данных о current_date')
+
+            except Exception as e:
+                print(f'Ошибка: {e}')
+
             time.sleep(300)  # опрашивать раз в пять минут
 
         except KeyboardInterrupt:

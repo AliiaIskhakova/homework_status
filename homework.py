@@ -22,13 +22,14 @@ def parse_homework_status(homework):
 
     try:
         response = requests.get(url=url, headers=headers, params=params).json().get('homeworks', [])
-        homework_name = response[0]['homework_name']
 
     except KeyError:
         print('Список домашек пуст')
 
     except Exception as e:
         print(f'Ошибка: {e}')
+
+    homework_name = response[0]['homework_name']
 
     if response[0]['status'] == 'rejected':
         verdict = 'К сожалению в работе нашлись ошибки.'

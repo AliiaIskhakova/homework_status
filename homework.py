@@ -23,19 +23,36 @@ def parse_homework_status(homework):
     try:
         response = requests.get(url=url, headers=headers, params=params).json().get('homeworks', [])
 
-    except KeyError:
-        print('Список домашек пуст')
+    except requests.exceptions.RequestException as e:
+        print(f'Ошибка запроса: {e}')
+ 
+    try:
+        homework_name = response[0]['homework_name']
+
+    except NameError:
+        print('Произошла ошибка запроса')
+
+    except LookupError:
+	    print('Список домашек пуст')
 
     except Exception as e:
         print(f'Ошибка: {e}')
 
-    homework_name = response[0]['homework_name']
+    try:
+        if response[0]['status'] == 'rejected':
+            verdict = 'К сожалению в работе нашлись ошибки.'
+        else:
+            verdict = 'Ревьюеру всё понравилось, можно приступать к следующему уроку.'
+        return f'У вас проверили работу "{homework_name}"!\n\n{verdict}'
 
-    if response[0]['status'] == 'rejected':
-        verdict = 'К сожалению в работе нашлись ошибки.'
-    else:
-        verdict = 'Ревьюеру всё понравилось, можно приступать к следующему уроку.'
-    return f'У вас проверили работу "{homework_name}"!\n\n{verdict}'
+    except NameError:
+        print('Произошла ошибка запроса')
+
+    except LookupError:
+	    print('Список домашек пуст')
+
+    except Exception as e:
+        print(f'Ошибка: {e}')
 
 
 def get_homework_statuses(current_timestamp):
@@ -59,16 +76,7 @@ def main():
             new_homework = get_homework_statuses(current_timestamp)
             if new_homework:
                 send_message(parse_homework_status(new_homework.get('homeworks', [])), bot)
-
-            try:
                 current_timestamp = new_homework.get('current_date', 0)  # обновить timestamp
-
-            except KeyError:
-                print('Нет данных о current_date')
-
-            except Exception as e:
-                print(f'Ошибка: {e}')
-
             time.sleep(300)  # опрашивать раз в пять минут
 
         except KeyboardInterrupt:

@@ -14,9 +14,9 @@
 <br><code>pip install -r requirements.txt</code>
 
 4. В директории проекта нужно создать файл .env с личными данными:
-PRAKTIKUM_TOKEN=''
-TELEGRAM_TOKEN=''
-TELEGRAM_CHAT_ID=''
+<br>PRAKTIKUM_TOKEN=''
+<br>TELEGRAM_TOKEN=''
+<br>TELEGRAM_CHAT_ID=''
 
 4. Запустить бота
 <br><code>python homework.py</code>

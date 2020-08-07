@@ -1,8 +1,6 @@
-# импорты стандартных библиотек
 import os
 import time
 
-# импорты сторонних библиотек
 import requests
 import telegram
 from dotenv import load_dotenv

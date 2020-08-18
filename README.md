@@ -20,7 +20,7 @@
 5. В директории проекта нужно создать файл .env с личными данными:
 <br>PRAKTIKUM_TOKEN='' - можно получить по ссылке https://oauth.yandex.ru/authorize?response_type=token&client_id=1d0b9dd4d652455a9eb710d450ff456a.
 <br>TELEGRAM_TOKEN='' - получен на предыдущем шаге.
-<br>TELEGRAM_CHAT_ID=''
+<br>TELEGRAM_CHAT_ID='' - можно узнать, обратившись к @getmyid_bot
 
 4. Запустить бота
 <br><code>python homework.py</code>

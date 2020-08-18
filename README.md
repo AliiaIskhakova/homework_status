@@ -12,8 +12,13 @@
 3. Установите необходимые пакеты
 <br><code>pip install -r requirements.txt</code>
 
+4. Создайте бота в Телеграм (он будет присылать вам сообщения):
+Найдите @BotFather,нажмите Start  и выполните команду /newbot.
+Задайте имя и техническое имя вашего бота.
+После создания бота вы получите токен 
+
 4. В директории проекта нужно создать файл .env с личными данными:
-<br>PRAKTIKUM_TOKEN=''
+<br>PRAKTIKUM_TOKEN='' - можно получить по ссылке https://oauth.yandex.ru/authorize?response_type=token&client_id=1d0b9dd4d652455a9eb710d450ff456a
 <br>TELEGRAM_TOKEN=''
 <br>TELEGRAM_CHAT_ID=''
 

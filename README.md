@@ -15,11 +15,11 @@
 4. Создайте бота в Телеграм (он будет присылать вам сообщения):
 Найдите @BotFather,нажмите Start  и выполните команду /newbot.
 Задайте имя и техническое имя вашего бота.
-После создания бота вы получите токен 
+После создания бота вы получите токен TELEGRAM_TOKEN.
 
-4. В директории проекта нужно создать файл .env с личными данными:
-<br>PRAKTIKUM_TOKEN='' - можно получить по ссылке https://oauth.yandex.ru/authorize?response_type=token&client_id=1d0b9dd4d652455a9eb710d450ff456a
-<br>TELEGRAM_TOKEN=''
+5. В директории проекта нужно создать файл .env с личными данными:
+<br>PRAKTIKUM_TOKEN='' - можно получить по ссылке https://oauth.yandex.ru/authorize?response_type=token&client_id=1d0b9dd4d652455a9eb710d450ff456a.
+<br>TELEGRAM_TOKEN='' - получен на предыдущем шаге.
 <br>TELEGRAM_CHAT_ID=''
 
 4. Запустить бота

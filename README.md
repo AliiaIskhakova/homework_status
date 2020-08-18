@@ -7,8 +7,7 @@
 <br><code>git clone <ссылка на репозиторий> <название локальной папки></code>
 
 2. Создайте и активируйте виртуальное окружение
-<br><code>python -m venv venv</code>
-<br><code>venv\scripts\activate</code>
+<br><code>python -m venv venv && . venv\scripts\activate</code>
 
 3. Установите необходимые пакеты
 <br><code>pip install -r requirements.txt</code>
